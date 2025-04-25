@@ -774,36 +774,47 @@ function generateTikTokVariations(product) {
     return variations;
 }
 
-function generateTokopediaDescription(product) {
-    return `📱 **${product.model} ${product.ram}GB/${product.storage}GB ${product.color}**
+function generateTokopediaVariations(product) {
+    const variations = [];
+    const brand = product.model.split(' ')[0];
+    const model = [...new Set(product.model.split(' ').slice(1))].join(' ');
+    
+    for (let i = 0; i < 50; i++) {
+        // Clean professional title
+        const title = `${brand} ${model} ${product.ram}GB/${product.storage}GB ${product.color}`;
+        
+        // Structured description
+        const desc = `📱 **${brand} ${model} ${product.ram}GB/${product.storage}GB ${product.color}**
 ✔ Kondisi: ${product.condition}
 ✔ Garansi: ${product.warranty}
 
-💰 **Harga**: ${product.formattedPrice} (Free Ongkir)
+💰 Harga: ${product.formattedPrice} (Free Ongkir)
 
-🔒 **GARANSI TOKO 7 HARI**
+🔒 GARANSI TOKO 7 HARI
 - Wajib video unboxing paket (Komplain tanpa video tidak dilayani)
 - Garansi hangus untuk: 
   • Jatuh/kena air 
   • Human error
   • Segel toko rusak
 
-🎁 **GIVEAWAY BULANAN**
+🎁 GIVEAWAY BULANAN
 Kami pilih 3 pembeli beruntung setiap bulan untuk dapat aksesoris gratis!
 
-📜 **SYARAT GIVEAWAY**:
+📜 SYARAT GIVEAWAY:
 1. Transaksi minimal Rp1.000.000
 2. Berikan rating ★5 + foto+video unboxing
 3. Rating rendah = diskualifikasi
 4. Pemenang dihubungi via chat Tokopedia
 5. Hadiah diulang jika tidak bisa dihubungi 3x24 jam
 
-📦 **PENGIRIMAN**:
-• Dikirim dari ${product.city || 'Bandung'}
+📦 PENGIRIMAN:
+• Dikirim dari Bandung
 • Packing kayu + bubble wrap
 • Estimasi 1-3 hari kerja`;
-}
-
+        variations.push({ title, desc });
+    }
+    return variations;
+        }
 // ==================== UTILITY FUNCTIONS ====================
 function populateVariationSelectors() {
     const platforms = ['olx', 'facebook', 'instagram', 'tiktok', 'tokopedia']; // Add 'tokopedia'
