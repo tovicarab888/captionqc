@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Content Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --neon-blue: #00F0FF;
+            --neon-pink: #FF00F5;
+            --neon-green: #00FF85;
+            --dark-space: #0A0A0F;
+            --dark-card: #121218;
+            --light: rgba(255,255,255,0.9);
+            --light-muted: rgba(255,255,255,0.7);
+            --gradient: linear-gradient(135deg, var(--neon-pink) 0%, var(--neon-blue) 100%);
+            --gradient-green: linear-gradient(135deg, var(--neon-blue) 0%, var(--neon-green) 100%);
+            --transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark-space);
+            color: var(--light);
+            line-height: 1.6;
+            -webkit-tap-highlight-color: transparent;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255,0,245,0.03) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(0,240,255,0.03) 0%, transparent 25%);
+        }
+
+        .container {
+            max-width: 100%;
+            width: 100%;
+            padding: 0 20px;
+            margin: 0 auto;
+        }
+
+        header {
+            padding: 30px 0 20px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin: 0 auto 15px;
+            box-shadow: 0 5px 20px rgba(255,0,245,0.3);
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            color: var(--light-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            background: rgba(15,15,20,0.7);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px auto;
+            border: 1px solid rgba(0,240,255,0.15);
+            max-width: 700px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--neon-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 15px rgba(255,0,245,0.2);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-weight: 600;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            background: var(--gradient);
+            box-shadow: 0 5px 20px rgba(255,0,245,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,240,255,0.4);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .results-container {
+            background: rgba(15,15,20,0.7);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 30px auto;
+            border: 1px solid rgba(0,240,255,0.15);
+            max-width: 700px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+        }
+
+        .platform-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0,240,255,0.2);
+            overflow-x: auto;
+        }
+
+        .platform-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .platform-tab.active {
+            border-bottom: 3px solid var(--neon-blue);
+            color: var(--neon-blue);
+        }
+
+        .platform-tab:hover {
+            color: var(--neon-pink);
+        }
+
+        .platform-content {
+            display: none;
+        }
+
+        .platform-content.active {
+            display: block;
+        }
+
+        .result-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,240,255,0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .result-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--neon-green);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-content {
+            white-space: pre-line;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,240,255,0.1);
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-blue);
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .copy-btn:hover {
+            background: var(--neon-blue);
+            color: var(--dark-space);
+        }
+
+        .variation-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .variation-select {
+            flex: 1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(0,240,255,0.3);
+            color: white;
+        }
+
+        #copyNotification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--neon-green);
+            color: var(--dark-space);
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        #copyNotification.show {
+            display: flex;
+            animation: slideIn 0.3s forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .price-input-container {
+            position: relative;
+        }
+
+        .price-input-container::before {
+            content: 'Rp';
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-muted);
+            font-weight: 600;
+        }
+
+        .price-input {
+            padding-left: 40px !important;
+        }
+
+        .warranty-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        .warranty-type {
+            flex: 1;
+        }
+
+        .warranty-detail {
+            flex: 2;
+        }
+
+        #warrantyDetailPersonal {
+            display: none;
+        }
+
+        .ig-caption {
+            color: #f5f5f5;
+        }
+        
+        .tiktok-caption {
+            color: #e2e2e2;
+        }
+        .tokopedia-caption {
+    color: #03ac0e;
+}
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">QC</div>
+            <h1 class="header-title">ULTIMATE CONTENT GENERATOR</h1>
+            <p class="header-subtitle">Generate ribuan konten unik tanpa duplikasi untuk 1000+ mitra</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="form-container">
+            <div class="form-group">
+                <label for="productDescription" class="form-label">
+                    <i class="fas fa-edit"></i> Deskripsi Produk
+                </label>
+                <textarea id="productDescription" class="form-control" placeholder="Contoh: 
+Samsung A55 5G 8/256GB kondisi mulus minus ada dent kecil
+
+atau
+
+iPad Pro 11 8/256 2024 unit only"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="productColor" class="form-label">
+                    <i class="fas fa-palette"></i> Warna Produk
+                </label>
+                <input type="text" id="productColor" class="form-control" placeholder="Contoh: Hitam, Silver, Gold, Midnight Green">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-shield-alt"></i> Garansi
+                </label>
+                <div class="warranty-container">
+                    <select id="warrantyType" class="form-control warranty-type">
+                        <option value="resmi">Resmi</option>
+                        <option value="personal">Personal</option>
+                    </select>
+                    <input type="number" id="warrantyDetailResmi" class="form-control warranty-detail" placeholder="12" min="1" max="24" inputmode="numeric">
+                    <input type="text" id="warrantyDetailPersonal" class="form-control warranty-detail" placeholder="Contoh: Garansi toko 3 bulan">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="productPrice" class="form-label">
+                    <i class="fas fa-tag"></i> Harga Produk (Harga Net No Nego)
+                </label>
+                <div class="price-input-container">
+                    <input type="text" id="productPrice" class="form-control price-input" placeholder="Contoh: 5.100.000" inputmode="decimal">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber" class="form-label">
+                    <i class="fas fa-phone"></i> Nomor WhatsApp (Opsional)
+                </label>
+                <input type="tel" id="phoneNumber" class="form-control" placeholder="Contoh: 081234567890" inputmode="numeric">
+            </div>
+
+            <button id="generateBtn" class="btn">
+                <i class="fas fa-magic"></i> Generate Konten (1000+ Variasi)
+            </button>
+        </section>
+
+    <section class="results-container" id="resultsContainer">
+        <div class="platform-tabs">
+            <div class="platform-tab active" data-tab="olx">OLX</div>
+            <div class="platform-tab" data-tab="facebook">FB Marketplace</div>
+                    <div class="platform-tab" data-tab="tokopedia">Tokopedia</div>
+            <div class="platform-tab" data-tab="instagram">Instagram</div>
+            <div class="platform-tab" data-tab="tiktok">TikTok</div>
+        </div>
+
+
+    <!-- Konten OLX -->
+<div class="platform-content active" id="olxContent">
+    <div class="variation-controls">
+        <select id="olxVariationSelect" class="variation-select">
+            <option value="">Pilih Variasi (50+ tersedia)</option>
+        </select>
+    </div>
+    <div class="result-box">
+        <h3 class="result-title">
+            <i class="fas fa-ad"></i> Judul OLX
+        </h3>
+        <div class="result-content" id="titleOLXResult"></div>
+        <button class="copy-btn" data-target="titleOLXResult">
+            <i class="far fa-copy"></i> Copy
+        </button>
+    </div>
+    <div class="result-box">
+        <h3 class="result-title">
+            <i class="fas fa-ad"></i> Deskripsi OLX
+        </h3>
+        <div class="result-content" id="descOLXResult"></div>
+        <button class="copy-btn" data-target="descOLXResult">
+            <i class="far fa-copy"></i> Copy
+        </button>
+    </div>
+</div>
+
+        <!-- Konten Facebook Marketplace -->
+        <div class="platform-content" id="facebookContent">
+            <div class="variation-controls">
+                <select id="facebookVariationSelect" class="variation-select">
+                    <option value="">Pilih Variasi (50+ tersedia)</option>
+                </select>
+            </div>
+            <div class="result-box">
+                <h3 class="result-title">
+                    <i class="fab fa-facebook"></i> Judul Facebook Marketplace
+                </h3>
+                <div class="result-content" id="titleFBResult"></div>
+                <button class="copy-btn" data-target="titleFBResult">
+                    <i class="far fa-copy"></i> Copy
+                </button>
+            </div>
+            <div class="result-box">
+                <h3 class="result-title">
+                    <i class="fab fa-facebook"></i> Deskripsi Facebook
+                </h3>
+                <div class="result-content" id="descFBResult"></div>
+                <button class="copy-btn" data-target="descFBResult">
+                    <i class="far fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+
+        <!-- Konten Instagram -->
+        <div class="platform-content" id="instagramContent">
+            <div class="variation-controls">
+                <select id="instagramVariationSelect" class="variation-select">
+                    <option value="">Pilih Variasi (50+ tersedia)</option>
+                </select>
+            </div>
+            <div class="result-box">
+                <h3 class="result-title">
+                    <i class="fab fa-instagram"></i> Caption Instagram
+                </h3>
+                <div class="result-content ig-caption" id="descIGResult"></div>
+                <button class="copy-btn" data-target="descIGResult">
+                    <i class="far fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+
+        <!-- Konten TikTok -->
+        <div class="platform-content" id="tiktokContent">
+            <div class="variation-controls">
+                <select id="tiktokVariationSelect" class="variation-select">
+                    <option value="">Pilih Variasi (50+ tersedia)</option>
+                </select>
+            </div>
+            <div class="result-box">
+                <h3 class="result-title">
+                    <i class="fab fa-tiktok"></i> Caption TikTok
+                </h3>
+                <div class="result-content tiktok-caption" id="descTikTokResult"></div>
+                <button class="copy-btn" data-target="descTikTokResult">
+                    <i class="far fa-copy"></i> Copy
+                </button>
+            </div>
+        </div>
+<!-- Konten Tokopedia -->
+<div class="platform-content" id="tokopediaContent">
+    <div class="variation-controls">
+        <select id="tokopediaVariationSelect" class="variation-select">
+            <option value="">Pilih Variasi (50+ tersedia)</option>
+        </select>
+    </div>
+    <div class="result-box">
+        <h3 class="result-title">
+            <i class="fas fa-store"></i> Judul Tokopedia
+        </h3>
+        <div class="result-content" id="titleTokopediaResult"></div>
+        <button class="copy-btn" data-target="titleTokopediaResult">
+            <i class="far fa-copy"></i> Copy
+        </button>
+    </div>
+    <div class="result-box">
+        <h3 class="result-title">
+            <i class="fas fa-store"></i> Deskripsi Tokopedia
+        </h3>
+        <div class="result-content" id="descTokopediaResult"></div>
+        <button class="copy-btn" data-target="descTokopediaResult">
+            <i class="far fa-copy"></i> Copy
+        </button>
+    </div>
+</div>
+        <button class="btn" id="resetBtn">
+            <i class="fas fa-redo"></i> Generate Baru
+        </button>
+    </section>
+    </main>
+
+    <div id="copyNotification">
+        <i class="fas fa-check-circle"></i>
+        <span>Teks berhasil disalin!</span>
+    </div>
+
+    <script>
+  // ==================== GLOBAL VARIABLES ====================
+let currentVariations = {
+    olx: [],
+    facebook: [],
+    instagram: [],
+    tiktok: [],
+    tokopedia: []
+};
+
+// ==================== INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize warranty type toggle
+    const warrantyType = document.getElementById('warrantyType');
+    const warrantyResmi = document.getElementById('warrantyDetailResmi');
+    const warrantyPersonal = document.getElementById('warrantyDetailPersonal');
+    
+    warrantyType.addEventListener('change', function() {
+        const isResmi = this.value === 'resmi';
+        warrantyResmi.style.display = isResmi ? 'block' : 'none';
+        warrantyPersonal.style.display = isResmi ? 'none' : 'block';
+    });
+
+    // Price input formatting
+    document.getElementById('productPrice').addEventListener('input', function(e) {
+        let value = this.value.replace(/[^\d]/g, '');
+        if (value.length > 2) {
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+        this.value = value;
+    });
+
+    // Generate button
+    document.getElementById('generateBtn').addEventListener('click', function() {
+        const product = parseProduct();
+        
+        if (!product.model) {
+            alert('Deskripsi produk harus diisi!');
+            return;
+        }
+        
+        if (!product.price) {
+            alert('Harga produk harus diisi!');
+            return;
+        }
+
+        generateAllContent(product);
+    });
+
+    // Reset button
+    document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+    // Copy buttons
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const target = document.getElementById(this.dataset.target);
+            if (target) {
+                navigator.clipboard.writeText(target.textContent).then(() => {
+                    showNotification();
+                });
+            }
+        });
+    });
+
+    // Platform tabs
+    document.querySelectorAll('.platform-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            document.querySelectorAll('.platform-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            const contentId = `${this.dataset.tab}Content`;
+            const content = document.getElementById(contentId);
+            if (content) content.classList.add('active');
+        });
+    });
+});
+
+// ==================== PRODUCT PARSER ====================
+function parseProduct() {
+    const description = document.getElementById('productDescription').value;
+    const price = document.getElementById('productPrice').value.replace(/[^\d]/g, '');
+    const warrantyType = document.getElementById('warrantyType').value;
+    const warrantyDetail = warrantyType === 'resmi' 
+        ? document.getElementById('warrantyDetailResmi').value + ' bulan'
+        : document.getElementById('warrantyDetailPersonal').value;
+    
+    // Extract product specs
+    const specMatch = description.match(/(\d+)\s*\/\s*(\d+)/i) || 
+                     description.match(/(\d+)\s*GB\s*\/\s*(\d+)/i);
+    
+    const conditionMatch = description.match(/kondisi\s*:?\s*([^\n]+)/i) || 
+                          ['', 'mulus'];
+    
+    return {
+        model: description.split('\n')[0].trim(),
+        color: document.getElementById('productColor').value,
+        price: parseInt(price) || 0,
+        formattedPrice: price ? 'Rp' + parseInt(price).toLocaleString('id-ID') : '',
+        warranty: warrantyType === 'resmi' ? `Garansi resmi ${warrantyDetail}` : warrantyDetail,
+        ram: specMatch ? specMatch[1] : '',
+        storage: specMatch ? specMatch[2] : '',
+        condition: conditionMatch[1] ? conditionMatch[1].trim() : 'mulus',
+        phone: document.getElementById('phoneNumber').value || ''
+    };
+}
+
+// ==================== MAIN GENERATOR FUNCTION ====================
+function generateAllContent(product) {
+    currentVariations.olx = generateOLXVariations(product);
+    currentVariations.facebook = generateFacebookVariations(product);
+    currentVariations.instagram = generateInstagramVariations(product);
+    currentVariations.tiktok = generateTikTokVariations(product);
+    currentVariations.tokopedia = generateTokopediaVariations(product);
+    
+    populateVariationSelectors();
+    
+    showVariation('olx', 0);
+    showVariation('facebook', 0);
+    showVariation('instagram', 0);
+    showVariation('tiktok', 0);
+    showVariation('tokopedia', 0);
+    
+    document.getElementById('resultsContainer').style.display = 'block';
+}
+
+// ==================== PLATFORM GENERATORS ====================
+function generateOLXVariations(product) {
+    const variations = [];
+    const conditions = ["Bekas Mulus", "Second", "Bekas Original", "Like New", "Kondisi 99%"];
+    
+    for (let i = 0; i < 50; i++) {
+        const title = `${product.model} ${product.ram ? product.ram + 'GB' : ''} ${product.storage ? product.storage + 'GB' : ''} ${conditions[i % conditions.length]}`;
+        
+        const rekberPrice = Math.round(product.price * 1.045);
+        const desc = `SPESIFIKASI
+- Tipe: ${product.model}
+- RAM/Storage: ${product.ram}GB/${product.storage}GB
+- Warna: ${product.color}
+- Kondisi: ${product.condition}
+- Garansi: ${product.warranty}
+
+TRANSAKSI
+- Harga: ${product.formattedPrice}
+- Rekber: Rp${rekberPrice.toLocaleString('id-ID')} (+4.5%)
+- Lokasi: Bandung
+
+KEUNGGULAN
+- Barang sesuai deskripsi
+- Bisa tes unit
+- Tidak untuk pedagang`;
+        
+        variations.push({ title, desc });
+    }
+    return variations;
+}
+
+function generateFacebookVariations(product) {
+    const variations = [];
+    const emojis = ["🔥", "💎", "📱", "⚡", "✨"];
+    const triggers = ["HARGA NET NO NEGO", "TEST UNIT LANGSUNG", "STOK TERBATAS"];
+    
+    for (let i = 0; i < 50; i++) {
+        const title = `${emojis[i % emojis.length]} ${product.model} ${product.ram ? product.ram + '/' + product.storage + 'GB' : ''} • ${triggers[i % triggers.length]}`;
+        
+        const rekberPrice = Math.round(product.price * 1.045);
+        const desc = `📋 SPESIFIKASI  
+- Tipe: ${product.model}  
+- RAM/Storage: ${product.ram}GB/${product.storage}GB  
+- Warna: ${product.color}  
+- Kondisi: ${product.condition}  
+- Garansi: ${product.warranty}  
+
+💰 HARGA  
+- Cash: ${product.formattedPrice} (NET)  
+- Rekber: Rp${rekberPrice.toLocaleString('id-ID')} (+4.5%)  
+
+📍 LOKASI  
+- COD: Bandung (Dago, Cihampelas)  
+- Rekber via marketplace  
+
+🔒 KETENTUAN  
+- Harga final, tidak ada nego  
+- Respon hanya via WhatsApp  
+- Tidak melayani pedagang/second  
+
+📞 KONTAK  
+WA: ${product.phone || 'DM untuk info'} (13.00-20.00 WIB)`;
+        
+        variations.push({ title, desc });
+    }
+    return variations;
+}
+
+function generateInstagramVariations(product) {
+    const variations = [];
+    const hooks = [
+        `Upgrade ke ${product.model} tanpa overbudget?`,
+        `Beli ${product.model} second tapi takut tipu?`,
+        `Review jujur ${product.model} setelah 1 bulan pakai:`
+    ];
+    
+    for (let i = 0; i < 50; i++) {
+        const caption = `${hooks[i % hooks.length]}  
+📌 Spesifikasi:  
+- ${product.ram}GB/${product.storage}GB ${product.color}  
+- Kondisi: ${product.condition}  
+- Bonus: Free Case Premium  
+
+💡 Special Price: ${product.formattedPrice} (DM 'UPGRADE')  
+⏰ 13.00-20.00 WIB  
+
+#${product.model.replace(/\s+/g, '')}Second #TechBandung #GadgetMurah`;
+        
+        variations.push(caption);
+    }
+    return variations;
+}
+
+function generateTikTokVariations(product) {
+    const variations = [];
+    const hooks = [
+        `INI HARGA ${product.model} TERMURAH DI BANDUNG! 😱`,
+        `GUE BARU NYADAR HARGA ${product.model} SEMURAH INI!`,
+        `BATERY ${product.model} TAHAAN 2 HARI! SERIUS!`
+    ];
+    
+    for (let i = 0; i < 50; i++) {
+        const caption = `${hooks[i % hooks.length]}  
+✔️ ${product.ram}GB/${product.storage}GB  
+✔️ ${product.condition}  
+✔️ ${product.warranty}  
+
+💬 Komen "BANDUNG" buat harga spesial!  
+⏰ 13.00-20.00 WIB  
+
+#${product.model.replace(/\s+/g, '')}Tok #FYPBandung #Tech2025`;
+        
+        variations.push(caption);
+    }
+    return variations;
+}
+
+function generateTokopediaVariations(product) {
+    const variations = [];
+    const cleanModel = [...new Set(product.model.split(' '))].join(' ').trim();
+    
+    // 50 Variasi unik
+    const tokoBenefits = [
+        "✅ READY STOCK | Kirim Cepat 1 Jam Setelah Pembayaran",
+        "✅ BARANG 100% SESUAI DESKRIPSI | Bergaransi Toko",
+        "✅ RESELLER FRIENDLY | Harga Terbaik Se-Indonesia",
+        "✅ GRATIS ONGKIR | Pengiriman Aman Packing Kayu",
+        "✅ RETUR MUDAH | Garansi Uang Kembali 100%"
+    ];
+
+    for (let i = 0; i < 50; i++) {
+        // JUDUL: Brand + Model + Spesifikasi + Benefit Toko
+        const title = `${cleanModel} ${product.ram}GB/${product.storage}GB ${product.color} - ${tokoBenefits[i%5].split('|')[0].replace('✅','').trim()}`;
+        
+        // DESKRIPSI: Format siap pakai dengan marketing language
+        const desc = `⬇️⬇️ DETAIL PRODUK ⬇️⬇️
+
+📌 ${cleanModel} ${product.ram}GB/${product.storage}GB
+🎨 Warna: ${product.color}
+🔧 Kondisi: ${product.condition}
+🛡️ Garansi: ${product.warranty}
+
+💰 HARGA: ${product.formattedPrice} (NET)
+
+🔥 KEUNGGULAN TOKO KAMI:
+${tokoBenefits[i%5]}
+${tokoBenefits[(i+2)%5]}
+
+💬 CHAT SEBELUM ORDER`;
+
+        variations.push({ title, desc });
+    }
+    return variations;
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+function populateVariationSelectors() {
+    const platforms = ['olx', 'facebook', 'instagram', 'tiktok', 'tokopedia']; // Add 'tokopedia'
+    const typeNames = {
+        olx: ["Standard", "Detailed", "Promo", "Quick Sell"],
+        facebook: ["Detailed", "Minimalist", "Promotional", "Story"],
+        instagram: ["Story", "Review", "Promo", "User Experience"],
+        tiktok: ["Trending", "Review", "Unboxing", "Creative"],
+        tokopedia: ["Standard", "Detailed", "Promo", "Premium"] // Add this line
+    };
+    
+    platforms.forEach(platform => {
+        const select = document.getElementById(`${platform}VariationSelect`);
+        if (!select) return;
+        
+        select.innerHTML = '<option value="">Pilih Variasi (50+ tersedia)</option>';
+        
+        for (let i = 0; i < 50; i++) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.textContent = `Variasi ${i+1} - ${typeNames[platform][i % 4]}`;
+            select.appendChild(option);
+        }
+        
+        select.addEventListener('change', function() {
+            if (this.value !== "") {
+                showVariation(platform, parseInt(this.value));
+            }
+        });
+    });
+}
+
+function showVariation(platform, index) {
+    const variation = currentVariations[platform][index];
+    if (!variation) return;
+    
+    if (platform === 'olx') {
+        document.getElementById('titleOLXResult').textContent = variation.title;
+        document.getElementById('descOLXResult').textContent = variation.desc;
+    } 
+    else if (platform === 'facebook') {
+        document.getElementById('titleFBResult').textContent = variation.title;
+        document.getElementById('descFBResult').textContent = variation.desc;
+    }
+    else if (platform === 'instagram') {
+        document.getElementById('descIGResult').textContent = variation;
+    }
+    else if (platform === 'tiktok') {
+        document.getElementById('descTikTokResult').textContent = variation;
+    }
+    else if (platform === 'tokopedia') {
+        document.getElementById('titleTokopediaResult').textContent = variation.title;
+        document.getElementById('descTokopediaResult').textContent = variation.desc;
+    }
+}
+function showNotification() {
+    const notification = document.getElementById('copyNotification');
+    if (notification) {
+        notification.classList.add('show');
+        setTimeout(() => {
+            notification.classList.remove('show');
+        }, 2000);
+    }
+}
+
+function resetForm() {
+    document.getElementById('productDescription').value = '';
+    document.getElementById('productColor').value = '';
+    document.getElementById('productPrice').value = '';
+    document.getElementById('phoneNumber').value = '';
+    document.getElementById('warrantyType').value = 'resmi';
+    document.getElementById('warrantyDetailResmi').value = '12';
+    document.getElementById('warrantyDetailPersonal').value = '';
+    document.getElementById('resultsContainer').style.display = 'none';
+}
+    </script>
+</body>
+</html>
